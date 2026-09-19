@@ -24,30 +24,31 @@
     var ctx = canvas.getContext("2d");
 
     var shipX = 240;
-    var ShipY = 590;
+    var shipY = 590;
     var shipSpeed = 5;
-    var keys= {};
+    var keys = {};
 
-    document.addEventListener("keydown", function(e) {
-        keys[e.key] = true;
-        if(e.key == "ArrowLeft" || e.key == "ArrowRight" || e.key == "ArrowUp" || e.key == "ArrowDown") {
-            e.preventDefault();
-        }
-    })
+    document.addEventListener("keydown", function (e) {
+      keys[e.key] = true;
+      if (e.key == "ArrowLeft" || e.key == "ArrowRight" || e.key == " ") {
+        e.preventDefault();
+      }
+    });
 
-    documet.addEventListener("keyup", function(e) {
-        keys[e.key] = false;
-        
+    document.addEventListener("keyup", function (e) {
+      keys[e.key] = false;
     });
 
     function update() {
-        if (keys["ArrowLeft"]) {
-            shipX -=shipSpeed;
-        }
-        if (keys[ArrowRight"]) {
-            shipX += shipSpeed;
-        }
-        if (shipX < 20) {
+      if (keys["ArrowLeft"]) {
+        shipX -= shipSpeed;
+      }
+      if (keys["ArrowRight"]) {
+        shipX += shipSpeed;
+      }
+
+      // don't let the ship leave the screen
+      if (shipX < 20) {
         shipX = 20;
       }
       if (shipX > 460) {
@@ -72,19 +73,6 @@
       update();
       draw();
     }, 16);
-
-
-    // background
-    ctx.fillStyle = "black";
-    ctx.fillRect(0, 0, 480, 640);
-
-    // test ship 
-    ctx.fillStyle = "cyan";
-    ctx.beginPath();
-    ctx.moveTo(240, 570);
-    ctx.lineTo(220, 610);
-    ctx.lineTo(260, 610);
-    ctx.fill();
   </script>
 </body>
 </html>
