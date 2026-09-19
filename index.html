@@ -23,11 +23,62 @@
     var canvas = document.getElementById("game");
     var ctx = canvas.getContext("2d");
 
+    var shipX = 240;
+    var ShipY = 590;
+    var shipSpeed = 5;
+    var keys= {};
+
+    document.addEventListener("keydown", function(e) {
+        keys[e.key] = true;
+        if(e.key == "ArrowLeft" || e.key == "ArrowRight" || e.key == "ArrowUp" || e.key == "ArrowDown") {
+            e.preventDefault();
+        }
+    })
+
+    documet.addEventListener("keyup", function(e) {
+        keys[e.key] = false;
+        
+    });
+
+    function update() {
+        if (keys["ArrowLeft"]) {
+            shipX -=shipSpeed;
+        }
+        if (keys[ArrowRight"]) {
+            shipX += shipSpeed;
+        }
+        if (shipX < 20) {
+        shipX = 20;
+      }
+      if (shipX > 460) {
+        shipX = 460;
+      }
+    }
+
+    function draw() {
+      ctx.fillStyle = "black";
+      ctx.fillRect(0, 0, 480, 640);
+
+      // ship
+      ctx.fillStyle = "cyan";
+      ctx.beginPath();
+      ctx.moveTo(shipX, shipY - 20);
+      ctx.lineTo(shipX - 20, shipY + 20);
+      ctx.lineTo(shipX + 20, shipY + 20);
+      ctx.fill();
+    }
+
+    setInterval(function () {
+      update();
+      draw();
+    }, 16);
+
+
     // background
     ctx.fillStyle = "black";
     ctx.fillRect(0, 0, 480, 640);
 
-    // test ship (a triangle near the bottom)
+    // test ship 
     ctx.fillStyle = "cyan";
     ctx.beginPath();
     ctx.moveTo(240, 570);
