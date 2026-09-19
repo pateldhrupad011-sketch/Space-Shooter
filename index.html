@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Space Shooter</title>
+  <style>
+    body {
+      background: #05050f;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    canvas {
+      border: 3px solid #333;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="game" width="480" height="640"></canvas>
+
+  <script>
+    var canvas = document.getElementById("game");
+    var ctx = canvas.getContext("2d");
+
+    // background
+    ctx.fillStyle = "black";
+    ctx.fillRect(0, 0, 480, 640);
+
+    // test ship (a triangle near the bottom)
+    ctx.fillStyle = "cyan";
+    ctx.beginPath();
+    ctx.moveTo(240, 570);
+    ctx.lineTo(220, 610);
+    ctx.lineTo(260, 610);
+    ctx.fill();
+  </script>
+</body>
+</html>
