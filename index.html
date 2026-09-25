@@ -22,6 +22,8 @@
   <script>
     var canvas = document.getElementById("game");
     var ctx = canvas.getContext("2d");
+    var w = 480;
+    var h = 640;
 
     var shipX = 240;
     var shipY = 590;
@@ -31,10 +33,20 @@
     var bulletSpeed = 8;
     var canShoot = true;
     var score = 0;
+    var started = false;
 
     var enemies = [];
     var enemySpeed = 1.5;
     var enemyDir = 1;
+
+    // start screen panel and button
+    var panelW = 360;
+    var panelX = (w - panelW) / 2;
+    var panelY = h / 2 - 140;
+    var btnX = w / 2 - 80;
+    var btnY = panelY + 190;
+    var btnW = 160;
+    var btnH = 50;
 
     function makeEnemyRow() {
       for (var col = 0; col < 6; col++) {
@@ -48,6 +60,15 @@
       if (e.key == "ArrowLeft" || e.key == "ArrowRight" || e.key == " ") {
         e.preventDefault();
       }
+
+      // start screen: space or enter starts the game
+      if (!started) {
+        if (e.key == " " || e.key == "Enter") {
+          started = true;
+        }
+        return;
+      }
+
       if (e.key == " " && canShoot) {
         bullets.push({x: shipX, y: shipY - 20});
         canShoot = false;
@@ -61,7 +82,24 @@
       }
     });
 
+    // clicking the start button
+    canvas.addEventListener("click", function (e) {
+      if (started) {
+        return;
+      }
+      var rect = canvas.getBoundingClientRect();
+      var mx = e.clientX - rect.left - canvas.clientLeft;
+      var my = e.clientY - rect.top - canvas.clientTop;
+      if (mx > btnX && mx < btnX + btnW && my > btnY && my < btnY + btnH) {
+        started = true;
+      }
+    });
+
     function update() {
+      if (!started) {
+        return;
+      }
+
       if (keys["ArrowLeft"]) {
         shipX -= shipSpeed;
       }
@@ -122,7 +160,7 @@
 
     function draw() {
       ctx.fillStyle = "black";
-      ctx.fillRect(0, 0, 480, 640);
+      ctx.fillRect(0, 0, w, h);
 
       // ship
       ctx.fillStyle = "cyan";
@@ -149,7 +187,39 @@
       // score
       ctx.fillStyle = "white";
       ctx.font = "24px Arial";
+      ctx.textAlign = "left";
       ctx.fillText("Score: " + score, 15, 30);
+
+      if (!started) {
+        // start screen
+        ctx.fillStyle = "black";
+        ctx.beginPath();
+        ctx.roundRect(panelX, panelY, panelW, 280, 15);
+        ctx.fill();
+        ctx.strokeStyle = "cyan";
+        ctx.lineWidth = 3;
+        ctx.stroke();
+
+        ctx.textAlign = "center";
+        ctx.fillStyle = "white";
+        ctx.font = "bold 40px Arial";
+        ctx.fillText("SPACE SHOOTER", w / 2, panelY + 50);
+        ctx.font = "20px Arial";
+        ctx.fillText("Use arrow keys to move", w / 2, panelY + 100);
+        ctx.fillText("Press SPACE to shoot", w / 2, panelY + 130);
+
+        // start button
+        ctx.fillStyle = "cyan";
+        ctx.beginPath();
+        ctx.roundRect(btnX, btnY, btnW, btnH, 10);
+        ctx.fill();
+        ctx.fillStyle = "black";
+        ctx.font = "bold 26px Arial";
+        ctx.fillText("START", w / 2, btnY + 33);
+        ctx.fillStyle = "#c8c8c8";
+        ctx.font = "14px Arial";
+        ctx.fillText("or press SPACE", w / 2, btnY + 75);
+      }
     }
 
     setInterval(function () {
