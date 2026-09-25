@@ -31,13 +31,13 @@
     var keys = {};
     var bullets = [];
     var bulletSpeed = 8;
-    var canShoot = true;
+    var fireTimer = 0;
+    var fireEvery = 15;
     var score = 0;
     var started = false;
 
     var enemies = [];
-    var enemySpeed = 1.5;
-    var enemyDir = 1;
+    var enemyCount = 6;
 
     // start screen panel and button
     var panelW = 360;
@@ -48,38 +48,31 @@
     var btnW = 160;
     var btnH = 50;
 
-    function makeEnemyRow() {
-      for (var col = 0; col < 6; col++) {
-        enemies.push({x: 60 + col * 65, y: 60, alive: true});
-      }
+    function newEnemy() {
+      return {
+        x: 30 + Math.random() * (w - 60),
+        y: -Math.random() * 300,
+        speed: 1 + Math.random() * 2.5,
+        alive: true
+      };
     }
-    makeEnemyRow();
+
+    for (var i = 0; i < enemyCount; i++) {
+      enemies.push(newEnemy());
+    }
 
     document.addEventListener("keydown", function (e) {
       keys[e.key] = true;
       if (e.key == "ArrowLeft" || e.key == "ArrowRight" || e.key == " ") {
         e.preventDefault();
       }
-
-      // start screen: space or enter starts the game
-      if (!started) {
-        if (e.key == " " || e.key == "Enter") {
-          started = true;
-        }
-        return;
-      }
-
-      if (e.key == " " && canShoot) {
-        bullets.push({x: shipX, y: shipY - 20});
-        canShoot = false;
+      if (!started && (e.key == " " || e.key == "Enter")) {
+        started = true;
       }
     });
 
     document.addEventListener("keyup", function (e) {
       keys[e.key] = false;
-      if (e.key == " ") {
-        canShoot = true;
-      }
     });
 
     // clicking the start button
@@ -113,6 +106,13 @@
         shipX = 460;
       }
 
+      // auto-fire: shoot on its own every fireEvery frames
+      fireTimer += 1;
+      if (fireTimer >= fireEvery) {
+        bullets.push({x: shipX, y: shipY - 20});
+        fireTimer = 0;
+      }
+
       // move bullets up
       for (var i = bullets.length - 1; i >= 0; i--) {
         bullets[i].y -= bulletSpeed;
@@ -121,35 +121,23 @@
         }
       }
 
-      // move enemies side to side, drop down at the edges
-      var hitEdge = false;
+      // enemies fall straight down at their own random speed
       for (var i = 0; i < enemies.length; i++) {
-        if (!enemies[i].alive) {
-          continue;
-        }
-        enemies[i].x += enemySpeed * enemyDir;
-        if (enemies[i].x < 30 || enemies[i].x > 450) {
-          hitEdge = true;
-        }
-      }
-      if (hitEdge) {
-        enemyDir *= -1;
-        for (var i = 0; i < enemies.length; i++) {
-          enemies[i].y += 20;
+        enemies[i].y += enemies[i].speed;
+        // went off the bottom without being shot: send it back to the top
+        if (enemies[i].y > h + 20) {
+          enemies[i] = newEnemy();
         }
       }
 
       // check if a bullet hit an enemy
       for (var b = bullets.length - 1; b >= 0; b--) {
         for (var e = 0; e < enemies.length; e++) {
-          if (!enemies[e].alive) {
-            continue;
-          }
           var dx = bullets[b].x - enemies[e].x;
           var dy = bullets[b].y - enemies[e].y;
           var dist = Math.sqrt(dx * dx + dy * dy);
           if (dist < 25) {
-            enemies[e].alive = false;
+            enemies[e] = newEnemy();
             bullets.splice(b, 1);
             score += 10;
             break;
@@ -179,9 +167,7 @@
       // enemies
       ctx.fillStyle = "#ff4d4d";
       for (var i = 0; i < enemies.length; i++) {
-        if (enemies[i].alive) {
-          ctx.fillRect(enemies[i].x - 18, enemies[i].y - 15, 36, 30);
-        }
+        ctx.fillRect(enemies[i].x - 18, enemies[i].y - 15, 36, 30);
       }
 
       // score
@@ -206,7 +192,7 @@
         ctx.fillText("SPACE SHOOTER", w / 2, panelY + 50);
         ctx.font = "20px Arial";
         ctx.fillText("Use arrow keys to move", w / 2, panelY + 100);
-        ctx.fillText("Press SPACE to shoot", w / 2, panelY + 130);
+        ctx.fillText("Your ship fires on its own", w / 2, panelY + 130);
 
         // start button
         ctx.fillStyle = "cyan";
