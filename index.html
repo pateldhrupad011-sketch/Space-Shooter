@@ -27,16 +27,26 @@
     var shipY = 590;
     var shipSpeed = 5;
     var keys = {};
+    var bullets = [];
+    var bulletSpeed = 8;
+    var canShoot = true;
 
     document.addEventListener("keydown", function (e) {
       keys[e.key] = true;
       if (e.key == "ArrowLeft" || e.key == "ArrowRight" || e.key == " ") {
         e.preventDefault();
       }
+      if (e.key == " " && canShoot) {
+        bullets.push({x: shipX, y: shipY - 20});
+        canShoot = false;
+      }
     });
 
     document.addEventListener("keyup", function (e) {
       keys[e.key] = false;
+      if (e.key == " ") {
+        canShoot = true;
+      }
     });
 
     function update() {
@@ -47,12 +57,19 @@
         shipX += shipSpeed;
       }
 
-      // don't let the ship leave the screen
       if (shipX < 20) {
         shipX = 20;
       }
       if (shipX > 460) {
         shipX = 460;
+      }
+
+      // move bullets up, remove ones that leave the screen
+      for (var i = bullets.length - 1; i >= 0; i--) {
+        bullets[i].y -= bulletSpeed;
+        if (bullets[i].y < 0) {
+          bullets.splice(i, 1);
+        }
       }
     }
 
@@ -67,6 +84,12 @@
       ctx.lineTo(shipX - 20, shipY + 20);
       ctx.lineTo(shipX + 20, shipY + 20);
       ctx.fill();
+
+      // bullets
+      ctx.fillStyle = "yellow";
+      for (var i = 0; i < bullets.length; i++) {
+        ctx.fillRect(bullets[i].x - 2, bullets[i].y - 8, 4, 16);
+      }
     }
 
     setInterval(function () {
