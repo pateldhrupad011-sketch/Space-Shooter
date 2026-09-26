@@ -1,5 +1,6 @@
 # Space Shooter
 <img width="493" height="657" alt="Screenshot 2026-09-25 at 6 34 03 PM" src="https://github.com/user-attachments/assets/00775afa-48c5-4dcd-bf9e-f3299b717369" />
+
  this is the game I made as a project for Hack Club's PIXL Hackathon. You control the spaceship using the arrow keys, the user would have to move the spaceship to shoot as many meteoroids without it letting past by the spaceship or hitting the spaceship because that will cost the user one life and there are only 3 lives in total
 
  # Play the Game
