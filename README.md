@@ -21,4 +21,3 @@
  - get some new ideas and some basic guidance
 
 I used AI as a learning tool to improve my coding skills, understand new concepts, and make my game better.
- 
