@@ -7,7 +7,7 @@
 
  [Play Space Shooter](https://pateldhrupad011-sketch.github.io/Space-Shooter/)
 
- # How to play - use the Arrow keys to move the spaceship
+ ## How to play - use the Arrow keys to move the spaceship
 
  ## License
 
