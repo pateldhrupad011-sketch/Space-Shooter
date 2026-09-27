@@ -9,6 +9,19 @@
 
  ## How to play - use the Arrow keys to move the spaceship
 
+ # Installing:
+
+this is a web Playable so you can access the link given above to play it 
+
+# Help:
+if you are facing any kind of problem in running the game, then restart game and you might want to open it in a new tab
+
+# Purpose:
+I made this game as a project to submit to the HackClub's PIXL hackathon. learning coding and making cool games like this 
+
+# Dependencies:
+there are no Dependencies, this game can be run on any laptop easily 
+
  ## License
 
  This project was created for learning and experimentation
