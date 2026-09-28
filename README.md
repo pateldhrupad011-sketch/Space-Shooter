@@ -32,5 +32,6 @@ there are no Dependencies, this game can be run on any laptop easily
  - Help with debugging the code
  - look at the mistakes I made and learn from it
  - get some new ideas and some basic guidance
+ - split up main file into CSS, Java and HTML
 
 I used AI as a learning tool to improve my coding skills, understand new concepts, and make my game better.
