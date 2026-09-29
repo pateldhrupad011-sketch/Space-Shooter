@@ -19,6 +19,14 @@ if you are facing any kind of problem in running the game, then restart game and
 # Purpose:
 I made this game as a project to submit to the HackClub's PIXL hackathon. learning coding and making cool games like this 
 
+# Tech Stack
+
+- **HTML** – page structure (`index.html`)
+- **CSS** – styling (`style.css`)
+- **JavaScript** – game logic and canvas drawing (`game.js`)
+
+No frameworks or libraries — just plain HTML, CSS, and JavaScript that runs in the browser.
+
 # Dependencies:
 there are no Dependencies, this game can be run on any laptop easily 
 
@@ -29,9 +37,9 @@ there are no Dependencies, this game can be run on any laptop easily
  # AI Usage 
 
  - I used ai to make the Spaceship's and Meteoroid's desing 
- - Help with debugging the code
+ - Help with debugging the JavaScript code
  - look at the mistakes I made and learn from it
  - get some new ideas and some basic guidance
- - split up main file into CSS, Java and HTML
+ - split up main file into CSS, JavaScript, and HTML
 
 I used AI as a learning tool to improve my coding skills, understand new concepts, and make my game better.
